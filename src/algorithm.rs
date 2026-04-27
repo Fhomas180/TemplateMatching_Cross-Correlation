@@ -1,36 +1,25 @@
-use image::{GrayImage, ImageBuffer, Luma};
-use imageproc::template_matching::{match_template, MatchTemplateMethod};
-
-fn templateMatching(){
-    let img_raw: Vec<u8> = vec![0; 100 * 100];
-    let temp_raw: Vec<u8> = vec![25u8,10 * 10];
-
-    let img: GrayImage = ImageBuffer::from_raw(100,100,img_raw).unwrap();
-    let template: GrayImage = ImageBuffer::from_raw(10,10, temp_raw).unwrap();
-
-    let result = match_template(
-        &img,
-        &template,
-        MatchTemplateMethod::SumofSquaredErrorsNormalized
-    );
-
-    let threshold = 10.0;
-    for(x,y, score)in result.enumerate_pixels(){
-        if score.0 < threshold {
-            println!("Match found at ({}, {}) with score {}", x, y, score.0);
-        }
+pub fn normalize_image(img: &[f32]) -> Vec<f32> {
+let mean: f32 = img.iter().sum::<f32>() / img.len() as f32;
+let std: f32 = (img.iter().map(|x| (x - mean).powi(2))
+        .sum::<f32>() / img.len() as f32)
+        .sqrt();
+    
+    if std == 0.0 {
+        return vec![0.0; img.len()];
     }
-
     
-}
-fn normalize_image(img: &[f32]) -> Vec<f32> {
-
+    img.iter().map(|x| (x - mean) / std).collect()
 }
 
-fn dot_product(a: &[f32], b: &[f32]) -> f32{
-
+pub fn dot_product(a: &[f32], b: &[f32]) -> f32{
+a.iter().zip(b.iter()).map(|(x, y)| x * y).sum()
 }
 
-fn find_best_match(scores: & [f32]) -> usize{
-    
+pub fn find_best_match(scores: & [f32]) -> usize{
+        scores
+        .iter()
+        .enumerate()
+        .max_by(|a, b| a.1.partial_cmp(b.1).unwrap())
+        .map(|(i, _)| i)
+        .unwrap_or(0)
 }

@@ -1,4 +1,4 @@
-use textplots::{Charts, Plot, Shape};
+use textplots::{Chart, Plot, Shape};
 use std::time::Instant;
 
 pub struct BenchmarkResults{
@@ -13,14 +13,14 @@ pub fn time_sequential<F>(f: F) -> f64
 where F: Fn(){
     let start = Instant::now();
     f();
-    start.elapsed().as_secs_f64();
+    start.elapsed().as_secs_f64()
 }
 
 pub fn time_parallel<F>(f: F) -> f64
-where F: FN(){
+where F: Fn(){
     let start = Instant::now();
     f();
-    start.elapsed().as_secs_f64();
+    start.elapsed().as_secs_f64()
 }
 
 pub fn calculate_speedup(seq: f64, par: f64) -> f64{
@@ -37,17 +37,18 @@ pub fn print_results(results: &BenchmarkResults){
     println!("Parallel:    {:.3}s", results.parallel_time);
     println!("Speedup:     {:.2}x", results.speedup);
     println!("Efficiency:  {:.2}%", results.efficiency * 100.0);
-    println!("Accuracy:    {:.2}%", results.accuracy * 100.0);
+    println!("Accuracy:    {:.2}%", results.accuracy);
 }
 
 pub fn plot_speedup_by_threads(times: &[(usize, f64)]){
     let points: Vec<(f32, f32)> = times
-    .iter()  
-    .map(|(t, s)| (*t as f32, *s as f32))
-    .collect();
+        .iter()
+        .map(|(t, s)| (*t as f32, *s as f32))
+        .collect();
 
     println!("\nExecution Time by Thread Count:");
-    Chart::new(120, 30, 0.0, 10.0)
+    println!("(x = threads, y = seconds)");
+    Chart::new(120, 30, 0.0, 25.0)  // x axis 0-25 threads
         .lineplot(&Shape::Lines(&points))
         .display();
 }
