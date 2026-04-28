@@ -78,7 +78,13 @@ Execution Time by Thread Count:
 0.0                                                     25.0
 
 
-
+[dependencies]
+image = "0.24"
+imageproc = "0.23"
+mnist = "0.5"
+textplots = "0.8"
+rayon = "1.7"
+ndarray = "0.15"
 
 
 ###### References 
