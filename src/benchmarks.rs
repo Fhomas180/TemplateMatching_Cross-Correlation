@@ -48,7 +48,7 @@ pub fn plot_speedup_by_threads(times: &[(usize, f64)]){
 
     println!("\nExecution Time by Thread Count:");
     println!("(x = threads, y = seconds)");
-    Chart::new(120, 30, 0.0, 25.0)  // x axis 0-25 threads
+    Chart::new(120, 30, 0.0, 25.0)  
         .lineplot(&Shape::Lines(&points))
         .display();
 }

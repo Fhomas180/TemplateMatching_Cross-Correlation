@@ -1,3 +1,48 @@
+      BENCHMARK RESULTS
+Sequential:  1.518s
+Parallel:    0.161s
+Speedup:     9.45x
+Efficiency:  29.53%
+Accuracy:    82.34%
+
+--- Two Parallel Approaches ---
+Rayon par_iter:    0.161s
+std::thread + Arc: 0.350s
+Rayon speedup over std::thread: 2.18x
+
+[dependencies]
+mnist = "0.5"
+textplots = "0.8"
+rayon = "1.7"
+ndarray = "0.15"
+
+rustFinalProject/
+├── Cargo.toml
+├── Cargo.lock
+├── README.md
+├── src/
+│   ├── main.rs         # Entry point, timing, benchmarking
+│   ├── lib.rs          # Public module declarations
+│   ├── algorithm.rs    # normalize_image, dot_product, find_best_match
+│   ├── sequential.rs   # build_templates, classify_sequential
+│   ├── parallel.rs     # classify_parallel (Rayon), classify_parallel_threads (std::thread)
+│   └── benchmarks.rs   # BenchmarkResults, print_results, plot_speedup_by_threads
+├── tests/
+│   └── tests.rs        # Unit tests for algorithm functions
+├── benchmarks/
+│   └── results.txt     # Benchmark results from both systems
+└── data/
+    └── (see Getting Started)
+###### References 
+
+- https://www.kaggle.com/datasets/hojjatk/mnist-dataset/data    <------- this is for MNIST Dataset
+- https://docs.rs/rayon/latest/rayon/   <----------------- Rayon Documentation
+- https://docs.rs/ndarray/latest/ndarray/  <--------------------------- ndarray documentation
+- Tempatle and Cross Correlation Documentation -
+- https://vipin-sharma.medium.com/image-template-matching-using-cross-correlation-2f2b8e59f254
+- https://www.ipb.uni-bonn.de/html/teaching/photo12-2021/2021-pho1-09-matching-cc.pptx.pdf
+- https://blog.roboflow.com/template-matching/
+- https://doc.rust-lang.org/std/time/struct.Instant.html <--------- Rust std::time::instant code
 # Template Matching & Cross Correlation WITH MNIST HandWritten Digits.
 
 **Made By Thomas Flavin, Course: CSI-380 Emerging Languages Final Project**
