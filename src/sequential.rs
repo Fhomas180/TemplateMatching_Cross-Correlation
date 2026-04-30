@@ -38,14 +38,14 @@ let num_classes = 10;
     let mut predictions = Vec::with_capacity(num_images);
 
     for i in 0..num_images {
-        // Step 1: grab and flatten image
+    
         let img = test_images.slice(ndarray::s![i, .., ..]);
         let flat: Vec<f32> = img.iter().cloned().collect();
 
-        // Step 2: normalize it
+        
         let normalized = normalize_image(&flat);
 
-        // Step 3: score against all 10 templates
+        
         let scores: Vec<f32> = templates
             .iter()
             .map(|t| dot_product(&normalized, t))
